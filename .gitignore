@@ -1,1 +1,6 @@
-*.box
+.vagrant/
+builds/
+**/*.box
+**/packer_cache
+
+**/*.swp
