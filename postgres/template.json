@@ -1,0 +1,31 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | sudo -S sh '{{.Path}}'",
+      "scripts": [
+        "scripts/install.sh",
+        "../scripts/zerodisk.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "source_path": "../builds/centos6-base/centos-6-base.ovf",
+      "boot_wait": "10s",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "shutdown_command": "echo 'vagrant'| sudo -S shutdown -P now"
+    }
+  ],
+  "post-processors": [{
+    "type": "vagrant",
+    "output": "postgres-{{isotime \"2006-01-02\"}}.box",
+    "compression_level": 9
+    }]
+}
